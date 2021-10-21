@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>簡易掲示板</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script src="{% static 'bbs/js/script.js' %}"></script>
+
+    <script src="{% static 'bbs/js/draw.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'bbs/css/style.css' %}">
+
+</head>
+<body>
+
+    <h1 class="bg-primary text-white text-center">お絵かき掲示板</h1>
+
+    <main class="container">
+        <form id="form_area" action="{% url 'bbs:index' %}" method="POST">
+            {% csrf_token %}
+            <textarea class="form-control" name="comment"></textarea>
+            <div class="my-2">
+                <canvas id="canvas" class="canvas"  width="300px" height="300px"></canvas>
+                <input id="canvas_clear" class="btn btn-danger" type="button" value="クリア">
+            </div>
+            <input id="submit" class="form-control" type="button" value="送信">
+        </form>
+
+        {% for topic in topics %}
+        <div class="border">
+            <div>{{ topic.comment }}</div>
+            <div><img src="{{ topic.img.url }}" alt="投稿画像"></div>
+        </div>
+        {% endfor %}
+
+    </main>
+</body>
+</html>
+
